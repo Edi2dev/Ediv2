@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download TikTok Tanpa Watermark</title>
+    <style>
+        :root {
+            --tiktok-pink: #FE2C55;
+            --tiktok-teal: #25F4EE;
+            --tiktok-purple: #7E57C2;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        h1 {
+            color: var(--tiktok-pink);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: var(--tiktok-teal);
+            outline: none;
+        }
+        button {
+            background-color: var(--tiktok-pink);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #d4234a;
+            transform: translateY(-2px);
+        }
+        button.secondary {
+            background-color: var(--tiktok-purple);
+        }
+        button.secondary:hover {
+            background-color: #6a4a9e;
+        }
+        .result {
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .video-preview {
+            width: 100%;
+            display: block;
+        }
+        .download-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .download-options a {
+            flex: 1;
+            text-align: center;
+        }
+        .download-btn {
+            display: block;
+            text-decoration: none;
+            background-color: var(--tiktok-teal);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .download-btn:hover {
+            background-color: #1ed8d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .download-btn.no-watermark {
+            background-color: var(--tiktok-purple);
+        }
+        .download-btn.no-watermark:hover {
+            background-color: #6a4a9e;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 30px 0;
+        }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border-left-color: var(--tiktok-pink);
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .instructions {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        .instructions h3 {
+            color: var(--tiktok-pink);
+            margin-top: 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 14px;
+        }
+        .error {
+            color: #d32f2f;
+            background-color: #fde8e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Download TikTok Tanpa Watermark</h1>
+        
+        <div class="input-group">
+            <input type="text" id="tiktok-url" placeholder="Paste link TikTok disini... Contoh: https://vm.tiktok.com/ZMLe5x5gX/">
+        </div>
+        
+        <button onclick="downloadVideo()">Download Video</button>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Sedang memproses video...</p>
+        </div>
+        
+        <div class="error" id="error"></div>
+        
+        <div id="result" class="result">
+            <div class="video-container">
+                <video controls class="video-preview" id="video-preview"></video>
+            </div>
+            
+            <div class="download-options">
+                <a href="#" class="download-btn no-watermark" id="download-nowm" download>Download Tanpa Watermark</a>
+                <a href="#" class="download-btn" id="download-original" download>Download Original</a>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>Cara Download Video TikTok:</h3>
+            <ol>
+                <li>Buka aplikasi TikTok dan cari video yang ingin didownload</li>
+                <li>Tekan tombol <strong>Share</strong> lalu pilih <strong>Copy Link</strong></li>
+                <li>Tempel link tersebut di kolom di atas</li>
+                <li>Klik tombol <strong>Download Video</strong></li>
+                <li>Pilih <strong>Download Tanpa Watermark</strong> untuk versi bersih</li>
+            </ol>
+            <p><strong>Catatan Penting:</strong></p>
+            <ul>
+                <li>Video didownload langsung dari server TikTok</li>
+                <li>Kami tidak menyimpan video Anda</li>
+                <li>Beberapa video mungkin tidak bisa didownload karena pembatasan</li>
+            </ul>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© <span id="year"></span> TikTok Downloader - Versi Tanpa Watermark</p>
+    </footer>
+
+    <script>
+        // Set tahun otomatis di footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        async function downloadVideo() {
+            const tiktokUrl = document.getElementById('tiktok-url').value.trim();
+            const resultDiv = document.getElementById('result');
+            const videoPreview = document.getElementById('video-preview');
+            const downloadNoWm = document.getElementById('download-nowm');
+            const downloadOriginal = document.getElementById('download-original');
+            const loadingDiv = document.getElementById('loading');
+            const errorDiv = document.getElementById('error');
+            
+            // Reset state sebelumnya
+            resultDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+            
+            if (!tiktokUrl) {
+                showError('Silakan masukkan link TikTok terlebih dahulu');
+                return;
+            }
+            
+            // Validasi format link TikTok
+            if (!isValidTikTokUrl(tiktokUrl)) {
+                showError('Link TikTok tidak valid. Pastikan link berasal dari TikTok');
+                return;
+            }
+            
+            try {
+                // Tampilkan loading
+                loadingDiv.style.display = 'block';
+                
+                // Gunakan API untuk mendapatkan video tanpa watermark
+                const apiResponse = await fetch(`https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(tiktokUrl)}`);
+                const data = await apiResponse.json();
+                
+                if (data && data.video && data.video.noWatermark) {
+                    // Set video preview
+                    videoPreview.src = data.video.noWatermark;
+                    
+                    // Set link download
+                    downloadNoWm.href = data.video.noWatermark;
+                    downloadOriginal.href = data.video.withWatermark || data.video.noWatermark;
+                    
+                    // Tampilkan hasil
+                    resultDiv.style.display = 'block';
+                } else {
+                    throw new Error(data.message || 'Tidak bisa mendapatkan video tanpa watermark');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Gagal mendownload video. Error: ' + error.message);
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        }
+
+        function isValidTikTokUrl(url) {
+            const tiktokDomains = [
+                'tiktok.com',
+                'vm.tiktok.com',
+                'vt.tiktok.com',
+                'www.tiktok.com',
+                'm.tiktok.com'
+            ];
+            return tiktokDomains.some(domain => url.includes(domain));
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        // Support tekan Enter untuk submit
+        document.getElementById('tiktok-url').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                downloadVideo();
+            }
+        });
+    </script>
+</body>
+</html>
